@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% endblock title %}
+
+{% block css %}
+    <style>
+        .home-links {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .home-links a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .home-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table td a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .table td a:hover {
+            color: #0056b3;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="home-links">
+    <a href="{% url 'project-list' %}">View Projects</a>
+    <a href="{% url 'contact' %}">Contact Me</a>
+    <a href="{% url 'inquiry-list' %}">View Inquiries</a>
+    <a href="{% url 'home' %}">Home</a>
+</div>
+
+    <h1>Inquiries</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inquiry in inquiries %}
+                <tr>
+                    <td>{{ inquiry.name }}</td>
+                    <td>
+                        <a href="mailto:{{ inquiry.email }}">{{ inquiry.email }}</a>
+                    </td>
+                    <td>{{ inquiry.subject }}</td>
+                    <td>{{ inquiry.message|truncatewords:10 }}</td>
+                    <td>{{ inquiry.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

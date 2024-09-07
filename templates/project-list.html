@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects{% endblock title %}
+
+{% block css %}
+    <style>
+        .project-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .home-links {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .home-links a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .home-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .project-title {
+            margin: 10px 0;
+            font-size: 1.75rem;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .date-posted {
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="home-links">
+    <a href="{% url 'project-list' %}">View Projects</a>
+    <a href="{% url 'contact' %}">Contact Me</a>
+    <a href="{% url 'inquiry-list' %}">View Inquiries</a>
+    <a href="{% url 'home' %}">Home</a>
+</div>
+
+    <h1>Projects</h1>
+
+    {% for project in projects %}
+        {{ project }}
+        <div class="project-card">
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" />
+        <h2 class="project-title">
+            <a href="{% url 'project-detail' project.pk %}">{{ project.title }}</a>
+        </h2>
+            <p class="project-description">{{ project.description|truncatechars:30 }}</p>
+            <p class="date-posted">Posted on: {{ project.created_at }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

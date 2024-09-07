@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact{% endblock title %}
+
+{% block css %}
+    <style>
+        .home-links {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .home-links a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .home-links a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .alert-success {
+            margin: 20px 0;
+            padding: 10px 15px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+            .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+    <div class="home-links">
+        <a href="{% url 'project-list' %}">View Projects</a>
+        <a href="{% url 'contact' %}">Contact Me</a>
+        <a href="{% url 'inquiry-list' %}">View Inquiries</a>
+        <a href="{% url 'home' %}">Home</a>
+    </div>
+
+    <h1>Contact Me</h1>
+
+    {% if success %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Message Sent!</strong> Thank you for approaching.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'contact' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+{% endblock %}
